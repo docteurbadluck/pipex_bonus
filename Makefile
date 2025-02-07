@@ -2,7 +2,7 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
 
-SRC = pipex_bonus.c
+SRC = pipex_bonus.c pipex_utils.c env_tool.c
 
 HEADERS = pipex_bonus.h libft.h
 
@@ -14,8 +14,8 @@ NAME = pipex_bonus
 
 all: $(NAME)
 
-$(NAME):
-		$(CC) $(SRC) $(HEADER) $(LIBFT) -o $(NAME)
+$(NAME): $(OBJ_FILES)
+		$(CC) $(OBJ_FILES) $(HEADER) $(LIBFT) -o $(NAME)
 
 clean: 
 		rm -f $(OBJ_FILES)
