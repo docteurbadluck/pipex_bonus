@@ -6,11 +6,37 @@
 /*   By: docteurbadluck <docteurbadluck@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 12:18:22 by docteurbadl       #+#    #+#             */
-/*   Updated: 2025/02/07 12:21:39 by docteurbadl      ###   ########.fr       */
+/*   Updated: 2025/02/10 13:59:10 by docteurbadl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
+
+// write the input in a temporary document.
+//it also append the result in the outfile instead of rewrite it.
+void	fd_here_doc_managment(char **argv, int *fd_in_out, int argc,
+		int fd_temp)
+{
+	char	*result;
+	char	*limiter;
+
+	result = NULL;
+	limiter = ft_strjoin(argv[2], "\n");
+	while (1)
+	{
+		if (result != NULL)
+			free(result);
+		result = get_next_line(0);
+		if (ft_strncmp(result, limiter, ft_strlen(limiter) + 1) != 0)
+			write (fd_temp, result, ft_strlen(result));
+		else
+			break ;
+	}
+	free(result);
+	free(limiter);
+	fd_in_out[0] = open("temp.txt", O_RDWR);
+	fd_in_out[1] = open(argv[argc - 1], O_APPEND | O_WRONLY | O_CREAT, 0777);
+}
 
 // fd_multi_managment handles the management of input and output fd.
 //	It performs the following actions:
@@ -21,10 +47,23 @@
 //	return (0) in case of success.
 int	fd_multi_managment(char **argv, int *fd_in_out, int argc)
 {
+	int	fd_temp;
+
+	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+	{
+		if (access("temp.txt", F_OK) == -1)
+			fd_temp = open("temp.txt", O_CREAT | O_RDWR, 0777);
+		else
+		{
+			unlink("temp.txt");
+			fd_temp = open("temp.txt", O_CREAT | O_RDWR, 0777);
+		}
+		fd_here_doc_managment(argv, fd_in_out, argc, fd_temp);
+		return (0);
+	}
 	if (access(argv[1], F_OK | R_OK) == -1)
 		return (-1);
-	else
-		fd_in_out[0] = open(argv[1], O_RDWR);
+	fd_in_out[0] = open(argv[1], O_RDWR);
 	if (access(argv[argc - 1], F_OK) == -1)
 		fd_in_out[1] = open(argv[argc - 1], O_CREAT | O_RDWR, 0777);
 	else
@@ -92,4 +131,6 @@ void	free_pipes(int **fd_pipes)
 		i++;
 	}
 	free(fd_pipes);
+	if (!access("temp.txt", F_OK))
+		unlink("temp.txt");
 }

@@ -6,7 +6,7 @@
 /*   By: docteurbadluck <docteurbadluck@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 12:18:00 by docteurbadl       #+#    #+#             */
-/*   Updated: 2025/02/07 12:18:03 by docteurbadl      ###   ########.fr       */
+/*   Updated: 2025/02/10 13:09:01 by docteurbadl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(int argc, char **argv)
 		ft_printf("Usage : <infile.txt> <cmd1> <cmd2> ... <outfile name>\n");
 		return (-1);
 	}
-	first_command(fd_io, fd_pipes, argv[2], environ);
+	first_command_choice(fd_io, fd_pipes, argv, environ);
 	while (nb_command > 0)
 	{
 		middle_command(fd_io, fd_pipes, argv[i + 2], i);
@@ -43,6 +43,16 @@ int	main(int argc, char **argv)
 	close_all_fd(fd_io, fd_pipes);
 	free_pipes(fd_pipes);
 	return (0);
+}
+
+void	first_command_choice(int fd_io[2], int **fd_p, char **argv, char **env)
+	{
+	if (ft_strncmp(argv[1], "here_doc", 8) != 0)
+		first_command(fd_io, fd_p, argv[2], env);
+	else
+	{
+		first_command(fd_io, fd_p, argv[3], env);
+	}
 }
 
 //	first_command sets up the first command in the pipeline. 

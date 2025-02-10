@@ -2,7 +2,7 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
 
-SRC = pipex_bonus.c pipex_utils.c env_tool.c
+SRC = pipex_bonus.c pipex_utils.c env_tool.c get_next_line.c get_next_line_utils.c
 
 HEADERS = pipex_bonus.h libft.h
 

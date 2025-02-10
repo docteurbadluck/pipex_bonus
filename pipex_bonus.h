@@ -6,7 +6,7 @@
 /*   By: docteurbadluck <docteurbadluck@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 12:18:09 by docteurbadl       #+#    #+#             */
-/*   Updated: 2025/02/07 12:18:10 by docteurbadl      ###   ########.fr       */
+/*   Updated: 2025/02/10 11:39:59 by docteurbadl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "libft.h"
 #include <sys/wait.h>
 #include <errno.h>
+#include "get_next_line.h"
 
 // ***env_tool.c***
 char	*my_getenv(char *name, char **env);
@@ -42,3 +43,5 @@ void	first_command(int fd_in_out[2], int **fd_pipes, char *cmd, char **env);
 void	last_command(int fd_in_out[2], int **fd_pipes, char *cmd, char **env);
 
 void	middle_command(int *fd_in_out, int **fd_pipes, char *cmd, int i);
+
+void	first_command_choice(int fd_io[2], int **fd_p, char **argv, char **env);
